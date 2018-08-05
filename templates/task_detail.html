@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block css %}
+    <link href="{% static 'buss/css/task.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'plugin/sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block body %}
+<body>
+{% endblock %}
+{% block webinfo %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="btn-group pull-right m-t-15">
+                    <a type="button" class="btn btn-tag dropdown-toggle waves-effect waves-light"
+                       href="/downloadxls" style="color: white">下载
+                    </a>
+
+                </div>
+                <div style="margin-top: 15px;margin-bottom: 15px">
+                    <span style="font-weight: bold;font-size: 20px;color:white">{{ tasks.name }}  &nbsp;&nbsp;&nbsp;Total:{{ len }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <table class="table webtask">
+                    <thead>
+                    <tr><th style="width:85px;">
+                        任务状态
+                    </th><th>
+                        域名
+                    </th><th>
+                        网站标题
+                    </th><th style="width:105px;">
+                        CMS识别结果
+                    </th><th>
+                        其他信息
+                    </th><th>
+                        操作
+                    </th></tr>
+                    </thead>
+<tbody>
+
+                    {% for item in cursor %}
+                        <tr>
+                    {% ifequal item.status "pending" %}
+                        <td><i class="zmdi zmdi-hourglass-alt" title="正在执行">  Pending</i></td>
+                    {% endifequal %}
+                    {% ifequal item.status "success" %}
+                        <td><i class="zmdi zmdi-hourglass" title="成功">  Success</i></td>
+                    {% endifequal %}
+                    {% ifequal item.status "finish" %}
+                        <td><i class="zmdi zmdi-hourglass" title="正在执行">  Finish</i></td>
+                    {% endifequal %}
+                        <td>{{ item.url }}</td>
+                        {% if item.title|length >= 75 %}
+                        <td>{{ item.title | slice:"75" }}</td>
+                        {% else %}
+                        <td>{{ item.title }}</td>
+                        {% endif %}
+                        <td>{{ item.webdna.cmsname }}</td>
+                        <td>{{ item.other }}</td>
+                        <td><a href="#"><i class="zmdi zmdi-chart-donut" title="重测"></i></a></td>
+                    </tr>
+                    {% endfor %}
+</tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'plugin/sweetalert/sweetalert.min.js' %}"></script>
+    <script src="{% static 'buss/js/task.js' %}"></script>
+{% endblock %}
+

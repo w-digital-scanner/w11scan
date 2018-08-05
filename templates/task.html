@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% load appname_tags %}
+{% block css %}
+    <link href="{% static 'buss/css/detail.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block webinfo %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="btn-group pull-right m-t-15">
+                    <button type="button" class="btn btn-tag dropdown-toggle waves-effect waves-light"
+                            data-toggle="modal" data-target="#con-close-modal" style="color:white">新建任务
+                    </button>
+
+                </div>
+                <div style="margin-top: 15px">
+                    <span style="font-weight: bold;font-size: 20px;color:white">任务数量:{{ len }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;margin-top: 20px">
+            <div class="col-lg-12">
+                    <div class="tag">
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+                {% for item in data %}
+                <div class="col-md-6 col-sm-6 col-lg-4">
+                    <div class="portlet" style="min-height: 125px;">
+                        <div class="portlet-heading portlet-default">
+                            <a href="{% url "task_detail" item|mongo2id:'_id' %}">
+                                <h3 class="portlet-title" style="color:#358ace !important;">{{ item.name }}</h3>
+                            </a>
+                                <div class="portlet-widgets">
+                                    <p class="label font-13 label-info">{{ item.time }}</p>
+                            </div>
+                            <a href="javascript:void(0);" style="position: absolute;top:17px"><i class="zmdi zmdi-close" id="{{ item|mongo2id:'_id' }}"></i></a>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="portlet-body">
+                            <p>{{ item.desc }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+                        <h4 class="modal-title">新的任务</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row uploadjson">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="field-name" class="control-label">任务名称</label>
+                                    <input type="text" class="form-control task-name" id="field-name" placeholder="请填写任务的名称">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row uploadjson">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="field-name" class="control-label">任务描述</label>
+                                    <input type="text" class="form-control task-desc" id="field-name" placeholder="这个人很懒，什么都不写">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row uploadjson">
+                            <div class="col-md-12">
+                                <div class="form-group no-margin jsoninfo">
+                                    <label for="field-json" class="control-label">任务内容</label>
+                                    <textarea class="form-control content" rows="8" id="field-data"
+                                              placeholder='每行一个URL'></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <script>
+                        function add_info() {
+                            var name = $("#con-close-modal .task-name").val();
+                            var desc = $("#con-close-modal .task-desc").val();
+                            var content = $("#con-close-modal .content").val();
+                            console.log(name,content);
+
+                            $.post("/task_add",{
+                                "taskname":name,
+                                "taskdesc":desc,
+                                "taskcontent":content
+                            },function (data,status) {
+                                if(data["status"] == "ok"){
+                                    swal("添加成功！","请继续操作","success");
+                                    window.location.reload()
+                                }else{
+
+                                    swal("添加失败！","请重试","error");
+                                }
+
+                            })
+
+                        }
+
+
+
+                    </script>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" id="close">关闭
+                        </button>
+                        <button type="button" class="btn btn-info waves-effect waves-light" id="add" onclick="add_info()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugin/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'buss/js/plugindetail.js' %}"></script>
+{% endblock %}

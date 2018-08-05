@@ -1,0 +1,203 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block css %}
+    <link href="{% static 'buss/css/plugin.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'plugin/sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/dropify.min.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block body %}
+<body>
+{% endblock %}
+{% block webinfo %}
+    <div class="container">
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-sm-12">
+
+
+                <div class="btn-group pull-right">
+                <div class="col-sm-8">
+                    <div class="input-group">
+                    <input class="form-control" id="search_bar" value="" name="find" type="text">
+                    </div>
+
+                </div>
+                    <button type="button" class="btn btn-tag dropdown-toggle waves-effect waves-light"
+                            data-toggle="modal" data-target="#con-close-modal">新增指纹
+                    </button>
+                </div>
+                <div style="margin-top: 15px">
+                    <span style="font-weight: bold;color:white">指纹数量:{{ cmslen }}</span>
+                </div>
+            </div>
+        </div>
+
+    <div class="row">
+            {% for k, v in cmsdata.items %}
+
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="portlet">
+                        <div class="portlet-heading portlet-default">
+                            <div class="label font-13 btn-tag"
+                                 style="float:right;margin:5px 12px 0 0 ">{{ v.len }}</div>
+
+
+
+                                <div class="label font-13 tag-high" style="float: right;"> <a href="/edit?slug={{ k }}" style="color:white" id="edit" data-cms="{{ k }}">edit</a></div>
+
+
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#bg-primary{{ forloop.counter }}">
+                                <h3 class="portlet-title">{{ k }}
+
+                                    <i class="zmdi zmdi-shield-check" title="内置指纹"></i>
+
+								</h3>
+                            </a>
+                            <a href="javascript:void(0);" style="position: absolute;right: 20px;top:17px"><i
+                                    class="zmdi zmdi-close" id="{{ k }}"></i></a>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div id="bg-primary{{ forloop.counter }}" class="panel-collapse collapse" style="line-height: 2">
+                            <div class="portlet-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            路径
+                                        </th>
+                                        <th>
+                                            识别方式
+                                        </th>
+                                        <th>
+                                            指纹
+                                        </th>
+                                    </tr>
+
+                                    </thead>
+                                    {% for i in v.data %}
+                                    <tr>
+                                        <td>
+                                            {{ i.path }}
+                                        </td>
+                                        <td>
+                                            {{ i.option }}
+                                        </td>
+                                    <td>
+                                        {{ i.content }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+
+
+
+
+
+
+
+        <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+                        <h4 class="modal-title">新增指纹</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row uploadjson" style="display: none;">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="field-name" class="control-label">指纹名称</label>
+                                    <input type="text" class="form-control plugin-name" id="field-name" placeholder="填写指纹名称">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row uploadjson" style="display: none;">
+                            <div class="col-md-12">
+                                <div class="form-group no-margin jsoninfo">
+                                    <label for="field-json" class="control-label">插件内容</label>
+                                    <textarea class="form-control content" rows="8" id="field-data"
+                                              placeholder='格式是json [{"path":"","option":"","content":""}]  option可填写 md5 或者 regx，如果是md5方式,content则填写md5值，如果是regx方式,content则填写正则表达式'>[
+        {
+            "path": "/images/admina/sitmap0.png",
+            "option": "md5",
+            "content": "e0c4b6301b769d596d183fa9688b002a"
+        },
+        {
+            "path": "/images/admina/logo.png",
+            "option": "md5",
+            "content": "db113c0f641da45947a371c4b7e1d280"
+        },
+        {
+            "path": "/images/admina/arrow.jpg",
+            "option": "md5",
+            "content": "4d31afa41252d32d8a9aefe04796eb4e"
+        }
+    ]</textarea>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <script>
+                        function add_info() {
+                            var name = $("#con-close-modal .plugin-name").val();
+                            var content = $("#con-close-modal .content").val();
+                            console.log(name,content);
+
+                            $.post("/plugin_add",{
+                                "cmsname":name,
+                                "content":content
+                            },function (data,status) {
+                                console.log(data,status);
+                                if(data["status"] == "ok"){
+                                    swal("添加成功！","请继续操作","success");
+                                    window.location.reload()
+                                }else{
+
+                                    swal("添加失败！","请重试","error");
+                                }
+
+                            })
+
+                        }
+
+                    </script>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" id="close">关闭
+                        </button>
+                        <button type="button" class="btn btn-info waves-effect waves-light" id="add" onclick="add_info()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+
+
+
+            <div class="row" style="position: absolute;top: 100%;left: 50%;margin: -80px 0 0 -212px;">
+                <ul class="pagination pagination-split">
+                    {% for i in pagination %}
+                        {{ i|safe }}
+                    {% endfor %}
+                </ul>
+            </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugin/sweetalert/sweetalert.min.js' %}"></script>
+    <script src="{% static 'js/dropify.min.js' %}"></script>
+    <script src="{% static 'buss/js/plugin.js' %}"></script>
+{% endblock %}

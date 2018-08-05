@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% load appname_tags %}
+{% load staticfiles %}
+{% block css %}
+    <link href="{% static 'plugin/sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"
+          xmlns="http://www.w3.org/1999/html"/>
+    <link href="{% static 'plugin/switchery/switchery.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'plugin/tip-twitter/tip-twitter.css' %}" rel="stylesheet" type="text/css"/>
+    <style>
+        .zmdi-help-outline {
+            margin-left: 10px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<body>
+{% endblock %}
+{% block webinfo %}
+    <div class="container">
+        <div class="col-md-12">
+
+            <div class="row">
+
+                        <br class="col-lg-6 col-md-6">
+
+                            <div class="card-box">
+
+                                    <h4>
+                                        指纹修改
+                                        <i class="zmdi zmdi-help-outline zmdi-hc-1x" title="修改指纹参数"></i>
+                                    </h4>
+                                <input type="text" class="form-control" value="{{ cmsname }}"
+                                           name="cmsname"/>
+                        </br>
+                                <table class="table table-edit">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            路径
+                                        </th>
+                                        <th>
+                                            识别方式
+                                        </th>
+                                        <th>
+                                            内容
+                                        </th>
+                                        <th>
+                                            命中率
+                                        </th>
+                                        <th>
+                                            操作
+                                        </th>
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+                                    {% for item in cursor %}
+
+                                    <tr>
+                                        <div class="cursor">
+
+                                        <td>
+                                            <input type="text" class="form-control path" value="{{ item.path }}"
+                                           name="path"/>
+                                        </td>
+                                        <td>
+                                            <select class="form-control option" name="option">
+                                                <option value="md5" {% ifequal item.option "md5" %}selected{% endifequal %}>
+                                                    MD5
+                                                </option>
+                                                <option value="regx" {% ifequal item.option "regx" %}selected{% endifequal %}>
+                                                    REGX
+                                                </option>
+                                                <option value="keyword" {% ifequal item.option "keyword" %}selected{% endifequal %}>
+                                                    Keyword
+                                                </option>
+                                            </select>
+                                        </td>
+                                    <td>
+                                        <input type="text" class="form-control content" value="{{ item.content }}"
+                                           name="content"/>
+                                        </td>
+                                        <td>
+                                        <input type="text" class="form-control hit" value="{{ item.hit }}"
+                                           name="hit"/>
+                                        </td>
+                                        <td>
+                                        <button class="btn btn-block btn-md btn-custom waves-effect waves-light update" type="button">Update</button>
+                                            <button class="btn btn-block btn-md btn-custom waves-effect waves-light delete" type="button">Delete</button>
+                                        </td>
+                                        <input type="hidden" class="_id" value="{{ item|mongo2id:'_id' }}" name="_id" />
+                                            </div>
+
+                                    </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <button type="button"
+                                                    class="btn btn-block btn-md btn-custom waves-effect waves-light dnadd"
+                                                    style="margin-top: 20px">添加新指纹
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+        </div>
+    </div></div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugin/sweetalert/sweetalert.min.js' %}"></script>
+    <script src="{% static 'plugin/switchery/switchery.min.js' %}"></script>
+    <script src="{% static 'plugin/jquery.poshytip.min.js' %}"></script>
+    <script src="{% static 'buss/js/edit.js' %}"></script>
+
+{% endblock %}

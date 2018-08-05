@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block css %}
+
+    <link href="{% static 'plugin/sweetalert/sweetalert.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'plugin/switchery/switchery.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'plugin/tip-twitter/tip-twitter.css' %}" rel="stylesheet" type="text/css"/>
+    <style>
+        .zmdi-help-outline {
+            margin-left: 10px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<body>
+{% endblock %}
+{% block webinfo %}
+    <div class="container">
+        <div class="col-md-12">
+
+            <div class="row">
+
+                        <div class="col-lg-6 col-md-6">
+                            <div class="card-box">
+
+                                    <h4>
+                                        最大线程数
+                                        <i class="zmdi zmdi-help-outline zmdi-hc-1x" title="爬虫引擎的最大线程数限制"></i>
+                                    </h4>
+                                    <input type="text" class="form-control" value="200"
+                                           name="Thread"/>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <button type="button"
+                                                    class="btn btn-block btn-md btn-custom waves-effect waves-light update"
+                                                    style="margin-top: 20px" inputname=Thread>更新
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-lg-6 col-md-6">
+                            <div class="card-box">
+
+                                    <h4>
+                                        连接超时时间(TCP)
+                                        <i class="zmdi zmdi-help-outline zmdi-hc-1x" title="WEB请求的超时时间，socket连接超时为值的一半。"></i>
+                                    </h4>
+                                    <input type="text" class="form-control" value="8"
+                                           name="Timeout"/>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <button type="button"
+                                                    class="btn btn-block btn-md btn-custom waves-effect waves-light update"
+                                                    style="margin-top: 20px" inputname=Timeout>更新
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        </div>
+    </div></div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugin/sweetalert/sweetalert.min.js' %}"></script>
+    <script src="{% static 'plugin/switchery/switchery.min.js' %}"></script>
+    <script src="{% static 'plugin/jquery.poshytip.min.js' %}"></script>
+    <script src="{% static 'buss/js/config.js' %}"></script>
+{% endblock %}
