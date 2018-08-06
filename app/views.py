@@ -9,15 +9,44 @@ from bson.objectid import ObjectId
 import time
 from cms.tasks import buildPayload
 from urllib.parse import urlparse
+import re
 
 # Create your views here.
+def mgo_text_split(query_text):
+    ''' split text to support mongodb $text match on a phrase '''
+    sep = r'[`\-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]'
+    word_lst = re.split(sep, query_text)
+    text_query = ' '.join('\"{}\"'.format(w) for w in word_lst)
+    return text_query
 
 def search(request):
     if not request.session.get('is_login',None):
         return redirect(login)
 
-    dict = {}
-    return render(request,"search.html",dict)
+    keyword = request.GET.get("q", None)
+    if keyword is None or keyword == "":
+        return render(request, "search.html")
+    words = keyword.split(";")
+    query = {}
+    for word in words:
+        if ":" not in word:
+            word = "all:" + word
+        pro, suff = word.split(":")
+        if pro == "cms":
+            query["webdna.cmsname"] = suff
+        elif pro == "url":
+            query["url"] = {"$regex":suff,"$options":"i"}
+        elif pro == "other":
+            text_query = mgo_text_split(suff)
+            query['$text'] = {'$search': text_query, '$caseSensitive': True}
+        elif pro == "all":
+            text_query = mgo_text_split(suff)
+            query['$text'] = {'$search': text_query, '$caseSensitive': True}
+    db = Conn.MongDB(database="w11scan_config")
+    cursor = db.coll['result'].find(query)
+    data = list(cursor)
+
+    return render(request, "task_detail.html", {"cursor":data,"tasks":{"name":"{}的搜索结果".format(keyword)},"len":len(data)})
 
 def task(request):
     if not request.session.get('is_login',None):
@@ -26,7 +55,7 @@ def task(request):
     data = list(db.coll["tasks"].find().sort("time",-1))
 
     for item in data:
-        item["time"] = time.strftime("%Y-%m-%d %X",time.localtime(item["time"]))
+        item["time"] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(item["time"]))
 
 
     return render(request,"task.html",{"data":data,"len":len(data)})
@@ -91,7 +120,7 @@ def plugin(request,slug = None):
     return render(request,"plugin.html",{"cmsdata":webdata,"cmslen":count,"pagination":pagination})
 
 def makeurl(url):
-    if "http://" not in url:
+    if not url.startswith("http"):
         url =  "http://" + url
     p = urlparse(url)
     path = p.netloc

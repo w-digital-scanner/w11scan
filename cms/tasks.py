@@ -246,7 +246,6 @@ def buildPayload(url,taskid):
     otherscan.delay(url,taskid)
     # other
 
-
 @celery_app.task
 def singscan(url,ordict,taskid):
     value = redisConn.get(url)

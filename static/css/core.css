@@ -1208,6 +1208,14 @@ pre {
   background-color: rgba(59, 62, 71, 0.4);
 }
 
+table td button.update{
+  width: 33%;
+  margin-top:4px;
+}
+table td button.delete{
+  width: 33%;
+  margin-top:1px;
+}
 
 
 /* =============

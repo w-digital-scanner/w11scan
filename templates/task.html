@@ -107,8 +107,15 @@
                                 "taskcontent":content
                             },function (data,status) {
                                 if(data["status"] == "ok"){
-                                    swal("添加成功！","请继续操作","success");
-                                    window.location.reload()
+                                    swal({
+                                      title: "添加成功！",
+                                      text: "请继续操作!",
+                                      type: "success",
+                                    },
+                                    function(){
+                                      window.location.reload()
+                                    });
+
                                 }else{
 
                                     swal("添加失败！","请重试","error");
