@@ -9,9 +9,13 @@ w11scan是一款分布式的WEB指纹识别系统（包括CMS识别、js框架�
 之前编写的扫描器追求的是轻巧方便，安装简单(甚至不需要安装其他库)，但是这一版使用了很多框架，python3为主要编成语言。分布式用的celery,消息队列用redis,后端数据库是mongodb,WEB用的Django。所以安装文档写起来比较麻烦（还在写...），docker也在筹划中...
 
 ### 识别技术
-指纹识别依靠三点，关键词，正则和特征hash。w11scan内置了1800多条常见的指纹，可以识别多达538种常见CMS，而且WEB端可以添加修改这些CMS指纹。另外也集成了`builtwith`和[Webeye](https://github.com/zerokeeper/WebEye/).在此表示感谢。  
+指纹识别依靠三点，关键词，正则和特征hash。w11scan内置了1800多条常见的指纹，可以识别多达538种常见CMS，而且WEB端可以添加修改这些CMS指纹。另外也集成了`builtwith`和[Webeye https://github.com/zerokeeper/WebEye/](https://github.com/zerokeeper/WebEye/).在此表示感谢。  
 
 ## Featrue
 1. 每个指纹都会有一个`命中率`标记，每次识别成功后，相应指纹命中率会增加，使用指纹时优先使用命中率高的指纹。
 2. 优先使用命中率最高的指纹，其次，将指纹按照访问路径分类排序，再优先使用访问路径次数最多的指纹。
 2. 搜索支持多种语法，全文搜索
+
+## show 
+Preview [https://x.hacking8.com/?tag=w11scan](https://x.hacking8.com/?tag=w11scan)
+![4.png](./docs/img/4.png)
