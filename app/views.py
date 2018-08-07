@@ -9,6 +9,7 @@ from bson.objectid import ObjectId
 import time
 from cms.tasks import buildPayload
 from urllib.parse import urlparse
+from app.Common import CreateTable
 import re
 
 # Create your views here.
@@ -331,3 +332,36 @@ def detail(request,slug = ""):
     data = db.coll["result"].find({"taskid":ObjectId(slug)})
 
     return render(request, "task_detail.html", {"cursor":data,"tasks":tasks,"len":data.count()})
+
+def download(request,slug = ""):
+
+    if not request.session.get('is_login',None):
+        return redirect(login)
+
+    db = Conn.MongDB(database="w11scan_config")
+
+    tasks = db.coll["tasks"].find_one({"_id":ObjectId(slug)})
+    colname = tasks.get("name",None)
+    taskdate = tasks.get("time",None)
+    if taskdate is None:
+        return HttpResponse("faild,taskid invalid")
+    taskdate = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(taskdate))
+    data = db.coll["result"].find({"taskid":ObjectId(slug)})
+    # { "_id" : ObjectId("5b6696d78598849b135dd44e"), "url" : "http://okoko.cn", "status" : "finish", "taskid" : ObjectId("5b6696d78598849b135dd448"), "other" : { "web-servers" : [ "Tengine" ], "other" : [ "Langeuage:php", "Server:Tengine/1.4.2", "X-Powered-By:PHP/5.3.10" ] }, "title" : "okoko.cn-您正在访问的网站可以合作！" }
+    # ['任务状态', '域名', '网站标题', 'CMS识别结果', '其他信息']
+    show = []
+    for i in data:
+        cms = i.get("webdna","")
+        if cms != "":
+            cms = cms.get("cmsname","")
+        _ = [i.get("status",""),i.get("url",""),i.get("title",""),cms,repr(i.get("other",""))]
+        show.append(_)
+    siov = CreateTable(show,colname)
+
+    response = HttpResponse(siov, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename={}.xls'.format(taskdate)
+    response.write(siov)
+
+    return response
+
+

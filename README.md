@@ -6,7 +6,7 @@ w11scan是一款分布式的WEB指纹识别系统（包括CMS识别、js框架�
 
 ## 安装
 软件本身安装非常简单，比较复杂的是一些框架、数据库的安装。  
-[安装](./docs/install.md)  
+- [安装](./docs/install.md)  
 - docker在筹划中...
 
 ## 使用的技术和思路
@@ -21,6 +21,7 @@ w11scan是一款分布式的WEB指纹识别系统（包括CMS识别、js框架�
 2. 优先使用命中率最高的指纹，其次，将指纹按照访问路径分类排序，再优先使用访问路径次数最多的指纹。
 3. 一个指纹识别成功后，会停止识别该URL的其他指纹，开始下一个任务
 4. 搜索功能支持多种语法，全文搜索(mongodb特性)
+5. 支持将内容下载为报表
 
 ## show 
 Preview [https://x.hacking8.com/?tag=w11scan](https://x.hacking8.com/?tag=w11scan)

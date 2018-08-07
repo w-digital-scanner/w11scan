@@ -33,5 +33,6 @@ urlpatterns = [
     path(r'logout',views.logout),
     path(r'task_add',views.task_add),
     path(r'task_del',views.task_del),
-    path(r'task/<str:slug>',views.detail,name="task_detail")
+    path(r'task/<str:slug>',views.detail,name="task_detail"),
+    path(r'download/<str:slug>',views.download,name="download")
 ]

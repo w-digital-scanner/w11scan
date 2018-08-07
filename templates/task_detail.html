@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load appname_tags %}
 {% load staticfiles %}
 {% block css %}
     <link href="{% static 'buss/css/task.css' %}" rel="stylesheet" type="text/css"/>
@@ -12,8 +13,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="btn-group pull-right m-t-15">
-                    <a type="button" class="btn btn-tag dropdown-toggle waves-effect waves-light"
-                       href="/downloadxls" style="color: white">下载
+                    <a type="button" target="_blank" class="btn btn-tag dropdown-toggle waves-effect waves-light"
+                       href="{% url 'download' tasks|mongo2id:'_id' %}" style="color: white">下载
                     </a>
 
                 </div>
