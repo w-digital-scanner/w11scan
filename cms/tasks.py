@@ -12,9 +12,9 @@ from bson.objectid import ObjectId
 from whatcms import celery_app
 from cms.otherscan import WebEye
 import builtwith
-from config import redis_host,redis_port,mongodb_host,mongodb_password,mongodb_port,mongodb_username
+from config import redis_host,redis_port,mongodb_host,mongodb_password,mongodb_port,mongodb_username,redis_password
 
-redisConn = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+redisConn = redis.Redis(host=redis_host, port=redis_port, password=redis_password,decode_responses=True)
 
 class MongDB(object):
     def __init__(self,database = 'w11scan'):
