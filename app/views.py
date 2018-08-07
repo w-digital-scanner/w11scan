@@ -46,8 +46,7 @@ def search(request):
     db = Conn.MongDB(database="w11scan_config")
     cursor = db.coll['result'].find(query)
     data = list(cursor)
-
-    return render(request, "task_detail.html", {"cursor":data,"tasks":{"name":"{}的搜索结果".format(keyword)},"len":len(data)})
+    return render(request, "task_detail.html", {"cursor":data,"tasks":{"name":"{}的搜索结果".format(keyword),"_id":" "},"len":len(data)})
 
 def task(request):
     if not request.session.get('is_login',None):
@@ -337,6 +336,9 @@ def download(request,slug = ""):
 
     if not request.session.get('is_login',None):
         return redirect(login)
+
+    if slug.strip() == "":
+        return HttpResponse("暂不支持下载")
 
     db = Conn.MongDB(database="w11scan_config")
 

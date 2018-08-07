@@ -8,7 +8,8 @@ w11scan是一款分布式的WEB指纹识别系统（包括CMS识别、js框架�
 软件本身安装非常简单，比较复杂的是一些框架、数据库的安装。  
 - [安装](./docs/install.md)  
 - docker在筹划中...
-
+## 流程演示视频
+[![](https://x.hacking8.com/content/uploadfile/201808/56cc1533655687.jpg)](https://x.hacking8.com/content/uploadfile/201808/26db1533655527.mp4)
 ## 使用的技术和思路
 ### 框架
 之前编写的扫描器追求的是轻巧方便，安装简单(甚至不需要安装其他库)，但是这一版使用了很多框架，python3为主要编成语言。分布式用的celery,消息队列用redis,后端数据库是mongodb,WEB用的Django。
