@@ -1,0 +1,3 @@
+use w11scan_config
+db.result.createIndex({"$**":"text"})
+exit

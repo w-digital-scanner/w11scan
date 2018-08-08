@@ -10,7 +10,7 @@ redis_port = 6379
 redis_password = ""
 
 mongodb_host = 'localhost'
-mongodb_port = 27017
+mongodb_port = 65521
 mongodb_username = ''
 mongodb_password = ''
 
@@ -23,7 +23,7 @@ if redis_password == "":
 else:
     BROKER_URL = "redis://{}@{}:{}/1".format(redis_password,redis_host,redis_port)
 
-CELERY_RESULT_BACKEND = "mongodb://localhost:27017/w11scan_celery"
+CELERY_RESULT_BACKEND = "mongodb://localhost:65521/w11scan_celery"
 # mongodb://user:password@localhost:27017/w11scan_celery
 
 if mongodb_username == "" and mongodb_password == "":
