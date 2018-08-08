@@ -23,8 +23,8 @@ sudo apt install redis-server (下载完成后默认运行)
 sudo apt install mongodb
 ```
 接着导入指纹
-`mongorestore -h 127.0.0.1 --port 65521 -d w11scan backup/w11scan`
-接着输入`mongo`进入mongodb shell
+```mongorestore -h 127.0.0.1 --port 65521 -d w11scan backup/w11scan```  
+接着输入`mongo`进入mongodb shell  
 `use dbs`
 查看是否有w11scan数据库创建，有则创建成功。  
 接着对结果进行全文索引。
@@ -43,7 +43,7 @@ python3 manage.py migrate
 ```
 
 ## 运行WEB端
-```python manage.py runserver```
+```python3 manage.py runserver```
 默认账号密码: admin w11scan
 ## 运行节点
 ```celery -A whatcms worker -l info```

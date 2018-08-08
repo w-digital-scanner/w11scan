@@ -1,6 +1,9 @@
+# ---------------------管理员账号密码-------------------------------------
 class Config(object):
     UserName = "admin"
     PassWord = "w11scan"
+
+# ---------------------配置分布式节点时，修改下面的参数-----------------------
 
 redis_host = "localhost"
 redis_port = 6379
@@ -10,6 +13,8 @@ mongodb_host = 'localhost'
 mongodb_port = 27017
 mongodb_username = ''
 mongodb_password = ''
+
+# ----------------------下面不用修改，为自动生成的内容------------------------
 
 BROKER_URL = "redis://localhost:6379/1"
 # redis://password@hostname:port/db_number
