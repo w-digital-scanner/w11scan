@@ -20,10 +20,20 @@ pip3 install -r requirement.txt
 ### 2. 安装redis、mongodb、导入指纹数据
 ```
 sudo apt install redis-server (下载完成后默认运行)
-sudo apt install mongodb
+sudo apt install mongodb (下载完成后默认运行)
+```  
+我们需要让mongodb在65521端口上运行，先停止mongodb
+```
+service mongodb stop
+```
+再启动
+```
+mongod --bind_ip 127.0.0.1 --port 65521
 ```
 接着导入指纹
-```mongorestore -h 127.0.0.1 --port 65521 -d w11scan backup/w11scan```  
+```
+mongorestore -h 127.0.0.1 --port 65521 -d w11scan backup/w11scan
+```  
 接着输入`mongo`进入mongodb shell  
 `use dbs`
 查看是否有w11scan数据库创建，有则创建成功。  
