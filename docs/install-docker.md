@@ -10,11 +10,11 @@ docker pull boyhack/w11scan
 ```
 2. 因为在启动docker的时候会向mongodb添加指纹信息，所以速度会比较慢。用下面的命令查看进度。
 ```
-docker run -it -p 666:8000 w11scan:latest
+docker run -it -p 666:8000 boyhack/w11scan:latest
 ```
 当然，你也可以放到后台执行
 ```
-docker run -d -p 666:8000 w11scan:latest
+docker run -d -p 666:8000 boyhack/w11scan:latest
 ```
 3. 打开http://127.0.0.1:666  账号密码为 admin w11scan
 4. Enjoy it!
