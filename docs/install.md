@@ -14,13 +14,14 @@ sudo apt install python-celery-common
 sudo apt install git
 git clone https://github.com/boy-hack/w11scan
 cd w11scan
-pip3 install -r requirement.txt
+pip3 install -r requirements.txt
 ```
 
 ### 2. 安装redis、mongodb、导入指纹数据
 ```
 sudo apt install redis-server (下载完成后默认运行)
 sudo apt install mongodb (下载完成后默认运行)
+mkdir -p /data/db (建立Mongodb存储目录)
 ```  
 我们需要让mongodb在65521端口上运行，先停止mongodb
 ```
