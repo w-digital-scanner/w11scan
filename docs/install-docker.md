@@ -12,7 +12,7 @@ docker pull boyhack/w11scan
 ```
 docker run -it -p 666:8000 boyhack/w11scan:latest
 ```
-当然，你也可以放到后台执行
+当然，你也可以放到后台执行(若访问失败请稍等一会，导入指纹需要时间)
 ```
 docker run -d -p 666:8000 boyhack/w11scan:latest
 ```
@@ -30,7 +30,7 @@ docker build -t w11scan:1.0 .
 ```
 docker run -it -p 666:8000 w11scan:1.0
 ```
-当然，你也可以放到后台执行
+当然，你也可以放到后台执行(若访问失败请稍等一会，导入指纹需要时间)
 ```
 docker run -d -p 666:8000 w11scan:1.0
 ```
