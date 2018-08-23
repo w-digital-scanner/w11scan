@@ -8,7 +8,7 @@ w11scan使用的技术有celery、Django、redis、mongodb，
 
 ### 1. 安装python3,pip,下载软件,安装依赖
 ```
-sudo apt install python3 python3-pip python-celery-common git
+sudo apt install -y python3 python3-pip python-celery-common git
 git clone https://github.com/boy-hack/w11scan
 cd w11scan
 pip3 install -r requirements.txt
@@ -16,8 +16,8 @@ pip3 install -r requirements.txt
 
 ### 2. 安装redis、mongodb、导入指纹数据
 ```
-sudo apt install redis-server mongodb 
-mkdir -p /data/db  # 建立Mongodb存储目录
+sudo apt install -y redis-server mongodb 
+sudo mkdir -p /data/db  # 建立Mongodb存储目录
 ```  
 我们需要让mongodb在65521端口上运行，先停止mongodb
 ```
@@ -40,7 +40,7 @@ mongorestore -h 127.0.0.1 --port 65521 -d w11scan backup/w11scan
 use w11scan_config
 db.result.createIndex({"$**":"text"})
 ```
-完成后exit退出。
+完成后`exit`退出。
 
 ### 3. 软件config配置
 1. 修改config.py，按照提示配置redis、mongodb用户名密码(如果按上面操作进行的，默认即可)
