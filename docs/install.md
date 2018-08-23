@@ -25,14 +25,14 @@ service mongodb stop
 ```
 再启动
 ```
-mongod --bind_ip 127.0.0.1 --port 65521
+sudo mongod --bind_ip 127.0.0.1 --port 65521
 ```
 接着导入指纹
 ```
 mongorestore -h 127.0.0.1 --port 65521 -d w11scan backup/w11scan
 ```  
-接着输入`mongo`进入mongodb shell  
-`use dbs`
+接着输入`mongo --port 65521`进入mongodb shell  
+`show dbs`
 查看是否有w11scan数据库创建，有则创建成功。  
 接着对结果进行全文索引。
 依然在mongodb shell状态下

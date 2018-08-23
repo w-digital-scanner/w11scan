@@ -18,7 +18,6 @@ redisConn = redis.Redis(host=redis_host, port=redis_port, password=redis_passwor
 
 class MongDB(object):
     def __init__(self,database = 'w11scan'):
-
         self.host = mongodb_host
         self.port = mongodb_port
         self.database = database
@@ -87,14 +86,19 @@ class whatweb(object):
         for i in collections:
             cursor = self.mongodb.coll[i].find()
             for f in cursor:
-                f["name"] = i
-                path = f["path"]
-                f["_id"] = str(f["_id"])
-                if path not in self.cms_hash_list:
-                    self.cms_hash_list[path] = []
-                self.cms_hash_list[path].append(f)
-                if str(f["hit"]).isdigit() and int(f["hit"]) > 0:
-                    path_cache_hit.append((path, int(f["hit"])))
+                try:
+                    f["name"] = i
+                    path = f["path"]
+                    f["_id"] = str(f["_id"])
+                    if path not in self.cms_hash_list:
+                        self.cms_hash_list[path] = []
+                    self.cms_hash_list[path].append(f)
+                    if str(f["hit"]).isdigit() and int(f["hit"]) > 0:
+                        path_cache_hit.append((path, int(f["hit"])))
+                except:
+                    msg = "mongodb collections:{} value:{}".format(i,repr(f))
+                    print(msg)
+                    continue
 
         # 组合指纹
 
